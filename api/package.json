@@ -1,0 +1,37 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "bin": {
+    "api": "bin/api.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk",
+    "e2e": "clear; npx newman run test/e2e/Brainbase.postman_collection.json -e test/e2e/Brainbase_audition.postman_environment.json"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "1.85.0",
+    "@types/jest": "^26.0.20",
+    "@types/lodash": "^4.14.167",
+    "@types/node": "14.14.21",
+    "axios": "^0.21.1",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
+    "ts-node": "^9.1.1",
+    "typescript": "~4.1.3"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigateway": "^1.85.0",
+    "@aws-cdk/aws-apigatewayv2": "^1.85.0",
+    "@aws-cdk/aws-apigatewayv2-integrations": "^1.85.0",
+    "@aws-cdk/aws-dynamodb": "^1.85.0",
+    "@aws-cdk/aws-lambda": "^1.85.0",
+    "@aws-cdk/core": "1.85.0",
+    "aws-cdk": "1.85.0",
+    "nanoid": "^3.1.20",
+    "path-parser": "^6.1.0",
+    "source-map-support": "^0.5.19"
+  }
+}

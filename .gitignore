@@ -1,0 +1,10 @@
+.DS_store
+_data
+
+api/.DS_store
+api/node_modules
+
+ui/.DS_store
+ui/.snowpack
+ui/build
+ui/node_modules

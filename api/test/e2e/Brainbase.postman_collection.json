@@ -1,0 +1,1021 @@
+{
+	"info": {
+		"_postman_id": "7f0ff738-6b6e-4560-97ac-cfc42d096ed8",
+		"name": "Brainbase",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Basic",
+			"item": [
+				{
+					"name": "It should not allow a request without the Api Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"pm.test(\"Message is invalid path\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Unauthorized\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should not allow a GET on the Root resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Message is invalid path\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Invalid path /\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								""
+							]
+						},
+						"description": "Call to / is not allowed."
+					},
+					"response": []
+				},
+				{
+					"name": "It should not allow a GET on an unknown resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Message is invalid path\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Invalid path /foo\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/foo",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"foo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Airports",
+			"item": [
+				{
+					"name": "It should GET the resource Airports and return (n) items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Item type: airports\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.type).to.eql('airports');",
+									"});",
+									"pm.test(\"Item count: 190\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.count).to.eql(190);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airports",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should GET the resource Airports and return (n) items matching filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Item type: airports\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.type).to.eql('airports');",
+									"});",
+									"pm.test(\"Item type: airports\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.count).to.eql(20);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airports?search=Regional",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airports"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "Regional"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should not allow a GET on resource Airports with an unknown filter property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Message; Invalid query parameter\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Invalid query parameter {\\\"bar\\\":\\\"baz\\\"} for path /airports\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airports?bar=baz",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airports"
+							],
+							"query": [
+								{
+									"key": "bar",
+									"value": "baz"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should not allow a POST on the resource Airports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Invalid method for path\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Invalid method POST on path /airports\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airports",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should not allow a PUT on the resource Airports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Invalid method for path\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Invalid method PUT on path /airports\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airports",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should not allow DELETE on the resource Airports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Invalid method for path\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Invalid method DELETE on path /airports\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airports",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should not allow a PATCH on the resource Airports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Invalid method for path\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Invalid method PATCH on path /airports\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airports",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airports"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Airport",
+			"item": [
+				{
+					"name": "It should not allow a GET on resource Airport without an IATA route parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Invalid path message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Invalid path /airport\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airport",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airport"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should GET resource Airport with an IATA route parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airport/BHM",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airport",
+								"BHM"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should GET resource Airport with an invalid IATA route parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response properties OK\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.type).to.eql('airport');",
+									"    pm.expect(jsonData.response.count).to.eql(0);",
+									"    pm.expect(jsonData.response.item).to.eql(null);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/airport/FOOBAR",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"airport",
+								"FOOBAR"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "It should allow GET on resource Favorites",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response properties are correct\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.type).to.eql('favorites');",
+									"    pm.expect(jsonData.response.count).to.be.greaterThan(0);",
+									"    pm.expect(jsonData.response.items.length).to.be.greaterThan(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/favorites",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorite",
+			"item": [
+				{
+					"name": "It should not allow a GET on the Favorite resource without an IATA code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Invalid path message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response).to.eql(\"Invalid path /favorite\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/favorite",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"favorite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should GET the Favorite resource with an IATA code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response properties OK\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.type).to.eql('airport');",
+									"    pm.expect(jsonData.response.count).to.eql(1);",
+									"    pm.expect(jsonData.response.item.iata).to.eql('SFO');",
+									"});",
+									"pm.test(\"Place property exists\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.item.Place).to.exist;",
+									"});",
+									"pm.test(\"CurrentWeather property exists\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.item.currentWeather).to.exist;",
+									"});",
+									"pm.test(\"CurrentWeather property exists\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.item.daylight).to.exist;",
+									"});",
+									"pm.test(\"EvilInsult property exists\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.item.evilInsult).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/favorite/SFO",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"favorite",
+								"SFO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should GET the Favorite resource with an invalid IATA code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Invalid path message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.type).to.eql(\"airport\");",
+									"    pm.expect(jsonData.response.count).to.eql(0);",
+									"    pm.expect(jsonData.response.item).to.eql(null);",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/favorite/SFOLY",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"favorite",
+								"SFOLY"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should POST resource Favorite with an IATA route parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response properties OK\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.type).to.eql('favorite');",
+									"    pm.expect(jsonData.response.count).to.eql(1);",
+									"    pm.expect(jsonData.response.item).to.eql('SFO');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/favorite/SFO",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"favorite",
+								"SFO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "It should not POST resource Favorite with an invalid IATA route parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response properties OK\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.response.type).to.eql('favorite');",
+									"    pm.expect(jsonData.response.count).to.eql(0);",
+									"    pm.expect(jsonData.response.item).to.eql(null);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{apikey_value}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{apikey_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/{{stage}}/favorite/FOOBAR",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"{{stage}}",
+								"favorite",
+								"FOOBAR"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
